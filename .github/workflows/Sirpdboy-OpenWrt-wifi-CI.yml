@@ -8,10 +8,10 @@ on:
   push:
     branches: 
       - master
-    paths:
-      - .github/workflows/Sirpdboy-OpenWrt-wifi-CI.yml
   schedule:
     - cron: '0 18 * * *'
+  # release:
+  #   types: [published]
 env:
   REPO_URL: https://github.com/coolsnowwolf/lede
   REPO_BRANCH: master
@@ -90,18 +90,18 @@ jobs:
         CONFIG_TARGET_x86_64_DEVICE_generic=y
         EOF
         # 固件压缩:
-        # cat >> .config <<EOF
+        cat >> .config <<EOF
         # CONFIG_TARGET_IMAGES_GZIP is not set
-        # EOF
+        EOF
         # 取消编译VMware镜像: 
         cat >> .config <<EOF
         # CONFIG_VMDK_IMAGES is not set
         EOF
         # IPv6支持:
-        # cat >> .config <<EOF
         # CONFIG_PACKAGE_dnsmasq_full_dhcpv6=y
-        # CONFIG_PACKAGE_ipv6helper=y
-        # EOF
+        cat >> .config <<EOF
+        CONFIG_PACKAGE_ipv6helper=y
+        EOF
         # 多文件系统支持:
         cat >> .config <<EOF
         CONFIG_PACKAGE_kmod-fs-ext4=y
@@ -117,7 +117,7 @@ jobs:
         EOF
         # 固件空间大小:
         cat >> .config <<EOF
-        CONFIG_TARGET_ROOTFS_PARTSIZE=860
+        CONFIG_TARGET_ROOTFS_PARTSIZE=850
         EOF
 
         # 常用LuCI插件选择:
@@ -437,11 +437,11 @@ jobs:
         # ========================固件定制部分结束========================
         # 
         sed -i 's/^[ \t]*//g' ./.config
+        make defconfig
 
      - name: Make Download
        run: |
         cd openwrt
-        make defconfig
         make -j8 download
         find ./dl/ -size -1024c -exec rm -f {} \;
 
@@ -463,7 +463,7 @@ jobs:
        run: |
         mkdir -p ./new/firmware
         mkdir -p ./new/package
-        cp -rf $(find ./openwrt/bin/packages/ -type f -name "*.ipk") ./new/package/
+        cp -rf $(find ./openwrt/bin/packages/ -type f -name "*.ipk") ./new/package
         find openwrt/bin/targets/ -name "*sysupgrade*bin*" | xargs -i mv -f {} ./new/firmware
         find openwrt/bin/targets/ -name "*combined*img*" | xargs -i mv -f {} ./new/firmware
         cd ./new/firmware
@@ -478,4 +478,4 @@ jobs:
        uses: actions/upload-artifact@main
        with:
           name: SirpdboyOpenWrt-wifi-IPV6-Ipk
-          path: ./new/package/
+          path: ./new/package
