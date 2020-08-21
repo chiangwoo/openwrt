@@ -29,29 +29,32 @@ jobs:
        env:
         DEBIAN_FRONTEND: noninteractive
        run: |
-          docker rmi `docker images -q`
-          sudo rm -rf /usr/share/dotnet /etc/mysql /etc/php /etc/apt/sources.list.d
-          sudo -E apt-get -y purge azure-cli ghc* zulu* hhvm llvm* firefox google* dotnet* powershell openjdk* mysql* php*
-          sudo -E apt-get update
-          sudo -E apt-get -y install build-essential asciidoc binutils bzip2 gawk gettext git libncurses5-dev libz-dev patch python3 unzip zlib1g-dev lib32gcc1 libc6-dev-i386 subversion flex uglifyjs gcc-multilib g++-multilib p7zip p7zip-full msmtp libssl-dev texinfo libglib2.0-dev xmlto qemu-utils upx libelf-dev autoconf automake libtool autopoint device-tree-compiler antlr3 gperf swig
-          sudo -E apt-get -y autoremove --purge
-          sudo -E apt-get clean
+        sudo rm -rf /etc/apt/sources.list.d/* /usr/share/dotnet /usr/local/lib/android /opt/ghc
+        sudo -E apt-get -qq update
+        sudo -E apt-get -qq install $(curl -fsSL git.io/depends-ubuntu-1804)
+        sudo -E apt-get -qq autoremove --purge
+        sudo -E apt-get -qq clean
           sudo timedatectl set-timezone "$TD"
+          sudo chown $USER:$GROUPS /home/runner/work/openwrt
      - name: Prepare openwrt
        run: |
-        sudo chown -R runner:runner /home/runner/work/openwrt
-        cp -r ./scripts/ready_download.sh  ./ &&  /bin/bash ready_download.sh 
+         df -hT $PWD
+         git clone --depth 1 $REPO_URL -b $REPO_BRANCH openwrt
+         cd openwrt  && ./scripts/feeds update -a
+         # cp -r ./scripts/ready_download.sh  ./ &&  /bin/bash ready_download.sh 
      - name: Prepare Package
        run: |
         cd openwrt
-        cp -r ../scripts/update_package.sh ./ && /bin/bash update_package.sh
-        chmod -R 755 ./
-        df -h
+        curl -fsSL https://raw.githubusercontent.com/siropboy/other/master/patch/script/update_package.sh | sh
+        ./scripts/feeds install -a
+        # cp -r ../scripts/update_package.sh ./ && /bin/bash update_package.sh
+        # chmod -R 755 ./
+        # df -h
+        # 修改LAN的IP地址
+        # sed -i 's/192.168.1.1/192.168.9.1/g' package/base-files/files/bin/config_generate
      - name: Generate Configuration File
        run: |
         cd openwrt
-        # 修改LAN的IP地址
-        # sed -i 's/192.168.1.1/192.168.9.1/g' package/base-files/files/bin/config_generate
         rm -f ./.config*
         touch ./.config
         #
@@ -97,8 +100,8 @@ jobs:
         # CONFIG_VMDK_IMAGES is not set
         EOF
         # IPv6支持:
+        # CONFIG_PACKAGE_dnsmasq_full_dhcpv6=y
         cat >> .config <<EOF
-        CONFIG_PACKAGE_dnsmasq_full_dhcpv6=y
         CONFIG_PACKAGE_ipv6helper=y
         EOF
         # 多文件系统支持:
@@ -373,6 +376,7 @@ jobs:
           
      - name: Prepare Artifact
        run: |
+        rm -rf  ./new
         mkdir -p ./new/firmware
         mkdir -p ./new/package
         cp -rf $(find ./openwrt/bin/packages/ -type f -name "*.ipk") ./new/package/
@@ -472,8 +476,8 @@ jobs:
         # CONFIG_VMDK_IMAGES is not set
         EOF
         # IPv6支持:
+        #CONFIG_PACKAGE_dnsmasq_full_dhcpv6=y
         cat >> .config <<EOF
-        CONFIG_PACKAGE_dnsmasq_full_dhcpv6=y
         CONFIG_PACKAGE_ipv6helper=y
         EOF
         # 多文件系统支持:
@@ -752,14 +756,15 @@ jobs:
           
      - name: Prepare Artifact
        run: |
-        mkdir -p ./new/firmware
-        find openwrt/bin/targets/ -name "*sysupgrade*bin*" | xargs -i mv -f {} ./new/firmware
-        find openwrt/bin/targets/ -name "*combined*img*" | xargs -i mv -f {} ./new/firmware
-        cd ./new/firmware
+        rm -rf  ./new2
+        mkdir -p ./new2
+        find openwrt/bin/targets/ -name "*sysupgrade*bin*" | xargs -i mv -f {} ./new2
+        find openwrt/bin/targets/ -name "*combined*img*" | xargs -i mv -f {} ./new2
+        cd ./new2
         gzip *.img
         
      - name: Upload Firmware
        uses: actions/upload-artifact@main
        with:
           name: SirpdboyOpenWrt5.4-IPV6-MINI-Firmware
-          path: ./new/firmware
+          path: ./new2
