@@ -1,15 +1,14 @@
+#!/bin/bash
 #=================================================
 # Description: Build OpenWrt using GitHub Actions
 # Author: sirpdboy
 # https://github.com/sirpdboy/Openwrt
-#!/bin/bash
-
-git clone https://github.com/coolsnowwolf/lede.git openwrt
+git clone --depth 1 https://github.com/coolsnowwolf/lede.git  -b master openwrt
 cd openwrt
 git clone https://github.com/siropboy/mypackages package/mypackages
 git clone https://github.com/siropboy/mysmall package/mysmall
 ./scripts/feeds update -a
-mkdir  ../bak
+mkdir -p ../bak
 mv ./feeds/luci/modules/luci-mod-admin-full/luasrc/view/admin_system/poweroff.htm  ../bak
 mv ./feeds/luci/modules/luci-mod-admin-full/luasrc/controller/admin/system.lua   ../bak
 mv ./package/lean/default-settings/files/zzz-default-settings   ../bak
