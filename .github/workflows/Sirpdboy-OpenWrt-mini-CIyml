@@ -9,7 +9,7 @@ on:
     branches: 
       - master
     paths:
-      - .github/workflows/Sirpdboy-OpenWrt-mini-CI.yml
+      - ./github/workflows/Sirpdboy-OpenWrt-mini-CI.yml
   schedule:
     - cron: '0 18 * * *'
 env:
