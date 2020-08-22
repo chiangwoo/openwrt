@@ -144,7 +144,7 @@ jobs:
         CONFIG_PACKAGE_luci-app-jd-dailybonus=y
         CONFIG_PACKAGE_luci-app-koolddns=y
         CONFIG_PACKAGE_luci-app-koolproxyR=y
-        CONFIG_PACKAGE_luci-app-minidlna=y
+        CONFIG_PACKAGE_luci-app-minidlna=m
         CONFIG_PACKAGE_luci-app-mwan3=y
         CONFIG_PACKAGE_luci-app-mwan3helper=y
         CONFIG_PACKAGE_luci-app-netdata=y
@@ -158,17 +158,17 @@ jobs:
         CONFIG_PACKAGE_luci-app-syncdial=y
         CONFIG_PACKAGE_luci-app-oaf=y
         CONFIG_PACKAGE_luci-app-transmission=y
-        CONFIG_PACKAGE_luci-app-ttyd=y
+        CONFIG_PACKAGE_luci-app-ttyd=m
         CONFIG_PACKAGE_luci-app-usb-printer=y
-        CONFIG_PACKAGE_luci-app-udpxy=y
+        CONFIG_PACKAGE_luci-app-udpxy=m
         CONFIG_PACKAGE_luci-app-pptp-vpnserver-manyusers=y
         CONFIG_PACKAGE_luci-app-vlmcsd=y
         CONFIG_PACKAGE_luci-app-vsftpd=y
-        CONFIG_PACKAGE_luci-app-vssr=m
-        CONFIG_PACKAGE_luci-app-webadmin=y
+        CONFIG_PACKAGE_luci-app-vssr=y
+        CONFIG_PACKAGE_luci-app-webadmin=m
         CONFIG_PACKAGE_luci-app-wifischedule=m
-        CONFIG_PACKAGE_luci-app-xlnetacc=y
-        CONFIG_PACKAGE_luci-app-zerotier=y
+        CONFIG_PACKAGE_luci-app-xlnetacc=m
+        CONFIG_PACKAGE_luci-app-zerotier=m
         CONFIG_LUCI_LANG_en=y
         EOF
         # LuCI主题:
@@ -421,7 +421,6 @@ jobs:
         CONFIG_PACKAGE_kmod-rtl8821ae=y
         CONFIG_PACKAGE_kmod-rtl8xxxu=y
         CONFIG_PACKAGE_kmod-rtlwifi=y
-        CONFIG_PACKAGE_RTLWIFI_DEBUG=y
         CONFIG_PACKAGE_kmod-rtlwifi-btcoexist=y
         CONFIG_PACKAGE_kmod-rtlwifi-pci=y
         CONFIG_PACKAGE_kmod-rtlwifi-usb=y
