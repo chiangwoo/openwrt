@@ -37,14 +37,17 @@ jobs:
         sudo timedatectl set-timezone "$TD"
         sudo chown $USER:$GROUPS /home/runner/work/openwrt
 
-     - name: Prepare openwrt
+     - name: download openwrt
        run: |
          df -hT $PWD
          git clone --depth 1 $REPO_URL -b $REPO_BRANCH openwrt
+     
+     - name: update feeds
+       run: |
+         curl -fsSL  https://raw.githubusercontent.com/siropboy/other/master/patch/feeds.conf.default/feeds.conf.default  >> openwrt/feeds.conf.default
          cd openwrt  && ./scripts/feeds update -a
-         
 
-     - name: Prepare Package
+     - name: update Packages
        run: |
         cd openwrt
         curl -fsSL https://raw.githubusercontent.com/siropboy/other/master/patch/script/update_package.sh | sh
@@ -129,12 +132,11 @@ jobs:
         # CONFIG_PACKAGE_luci-app-vsftpd is not set
         # CONFIG_PACKAGE_luci-app-xlnetacc is not set
         # CONFIG_PACKAGE_luci-app-zerotier is not set
-        # CONFIG_PACKAGE_luci-app-sfe is not set
+        CONFIG_PACKAGE_luci-app-sfe=m
         # CONFIG_PACKAGE_luci-app-nlbwmon is not set
         # CONFIG_PACKAGE_luci-app-ipsec-vpnd is not set
-        # CONFIG_PACKAGE_luci-app-minidlna is not set
+        CONFIG_PACKAGE_luci-app-minidlna=m
         # CONFIG_PACKAGE_luci-app-adbyby-plus is not set
-        # CONFIG_PACKAGE_luci-app-sfe is not set
         # CONFIG_PACKAGE_luci-app-unblockmusic is not set
         CONFIG_PACKAGE_luci-app-mwan3=y
         CONFIG_PACKAGE_luci-app-adguardhome=y
@@ -159,7 +161,7 @@ jobs:
         CONFIG_PACKAGE_luci-app-transmission=m
         CONFIG_PACKAGE_luci-app-ttyd=m
         CONFIG_PACKAGE_luci-app-vlmcsd=y
-        CONFIG_PACKAGE_luci-app-vssr=m
+        CONFIG_PACKAGE_luci-app-vssr=y
         CONFIG_PACKAGE_luci-app-webadmin=y
         CONFIG_LUCI_LANG_en=y
         EOF
