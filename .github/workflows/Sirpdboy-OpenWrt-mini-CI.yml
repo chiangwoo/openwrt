@@ -372,12 +372,12 @@ jobs:
      - name: Upload Firmware
        uses: actions/upload-artifact@main
        with:
-          name: SirpdboyOpenWrt-wifi-IPV6-Firmware
+          name: SirpdboyOpenWrt-mini-IPV6-Firmware
           path: ./new/firmware
      - name: Upload  IPK
        uses: actions/upload-artifact@main
        with:
-          name: SirpdboyOpenWrt-wifi-IPV6-Ipk
+          name: SirpdboyOpenWrt-mini-IPV6-Ipk
           path: ./new/package
 
      - name: Upload firmware to cowtransfer
