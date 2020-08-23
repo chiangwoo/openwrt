@@ -353,9 +353,6 @@ jobs:
         # Wireless Drivers
         cat >> .config <<EOF
         CONFIG_PACKAGE_kmod-adm8211=y
-        CONFIG_BRCMFMAC_SDIO=y
-        CONFIG_BRCMFMAC_USB=y
-        CONFIG_BRCMFMAC_PCIE=y
         CONFIG_PACKAGE_kmod-ipw2100=y
         CONFIG_PACKAGE_kmod-ipw2200=y
         CONFIG_PACKAGE_kmod-iwl-legacy=y
@@ -363,44 +360,18 @@ jobs:
         CONFIG_PACKAGE_kmod-iwl4965=y
         CONFIG_PACKAGE_kmod-iwlwifi=y
         CONFIG_PACKAGE_kmod-lib80211=y
-        CONFIG_PACKAGE_kmod-libertas-sdio=y
-        CONFIG_PACKAGE_kmod-libertas-spi=y
-        CONFIG_PACKAGE_kmod-libertas-usb=y
-        CONFIG_PACKAGE_kmod-libipw=y
         CONFIG_PACKAGE_kmod-mac80211=y
-        CONFIG_PACKAGE_MAC80211_DEBUGFS=y
-        CONFIG_PACKAGE_MAC80211_TRACING=y
-        CONFIG_PACKAGE_MAC80211_MESH=y
         CONFIG_PACKAGE_kmod-mac80211-hwsim=y
-        CONFIG_PACKAGE_kmod-mt76=y
-        CONFIG_PACKAGE_kmod-mt7601u=y
-        CONFIG_PACKAGE_kmod-mt7603=y
-        CONFIG_PACKAGE_kmod-mt7615e=y
-        CONFIG_PACKAGE_kmod-mt76x0e=y
-        CONFIG_PACKAGE_kmod-mt76x0u=y
-        CONFIG_PACKAGE_kmod-mt76x2=y
-        CONFIG_PACKAGE_kmod-mt76x2u=y
         CONFIG_PACKAGE_kmod-mt_wifi=y
         CONFIG_PACKAGE_kmod-mwifiex-pcie=y
         CONFIG_PACKAGE_kmod-mwifiex-sdio=y
-        CONFIG_PACKAGE_kmod-mwl8k=y
-        CONFIG_PACKAGE_kmod-net-prism54=y
         CONFIG_PACKAGE_kmod-net-rtl8192su=y
-        CONFIG_PACKAGE_kmod-owl-loader=y
-        CONFIG_PACKAGE_kmod-p54-common=y
-        CONFIG_PACKAGE_kmod-p54-pci=y
-        CONFIG_PACKAGE_kmod-p54-usb=y
-        CONFIG_PACKAGE_kmod-rsi91x=y
-        CONFIG_PACKAGE_kmod-rsi91x-sdio=y
-        CONFIG_PACKAGE_kmod-rsi91x-usb=y
         CONFIG_PACKAGE_kmod-rt2400-pci=y
         CONFIG_PACKAGE_kmod-rt2500-pci=y
         CONFIG_PACKAGE_kmod-rt2500-usb=y
         CONFIG_PACKAGE_kmod-rt2800-pci=y
         CONFIG_PACKAGE_kmod-rt2800-usb=y
         CONFIG_PACKAGE_kmod-rt2x00-lib=y
-        CONFIG_PACKAGE_kmod-rt61-pci=y
-        CONFIG_PACKAGE_kmod-rt73-usb=y
         CONFIG_PACKAGE_kmod-rtl8180=y
         CONFIG_PACKAGE_kmod-rtl8187=y
         CONFIG_PACKAGE_kmod-rtl8192c-common=y
@@ -417,8 +388,6 @@ jobs:
         CONFIG_PACKAGE_kmod-rtlwifi-usb=y
         CONFIG_PACKAGE_kmod-wl12xx=y
         CONFIG_PACKAGE_kmod-wl18xx=y
-        CONFIG_PACKAGE_kmod-wlcore=y
-        CONFIG_PACKAGE_kmod-zd1211rw=y
         CONFIG_PACKAGE_wifi-l1profile=y
         EOF
         # 
