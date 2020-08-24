@@ -16,7 +16,7 @@ env:
   REPO_URL: https://github.com/coolsnowwolf/lede
   REPO_BRANCH: master
   FEEDS_CONF: feeds.conf.default
-  CONFIG_FILE: all.config
+  CONFIG_FILE: allappdrv.config
   TD: Asia/Shanghai
 
 jobs:
@@ -56,12 +56,12 @@ jobs:
      - name: update Packages
        run: |
         cd openwrt
-        curl -fsSL https://raw.githubusercontent.com/siropboy/other/master/patch/script/update_package_mini.sh | sh
+        curl -fsSL https://raw.githubusercontent.com/siropboy/other/master/patch/script/update_package.sh | sh
         ./scripts/feeds install -a
 
      - name: Make Download
        run: |
-        curl -fsSL https://raw.githubusercontent.com/siropboy/other/master/patch/x86_64/$CONFIG_FILE > openwrt/.config
+        curl -fsSL https://raw.githubusercontent.com/siropboy/other/master/patch/x86-64/$CONFIG_FILE > openwrt/.config
         cd openwrt
         make defconfig
         make -j8 download
