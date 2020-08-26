@@ -62,13 +62,19 @@ jobs:
         curl -fsSL https://raw.githubusercontent.com/siropboy/other/master/patch/script/$DIY_P2_SH | sh
         ./scripts/feeds install -a
         
+     - name: Updata CONFIG_FILE
+       run: |
+        cd openwrt 
+        curl -fsSL https://raw.githubusercontent.com/siropboy/other/master/patch/x86-64/$CONFIG_FILE > .config
+        make defconfig
+        
      - name: Toolchain Openwrt
        run: |
           cd openwrt
           echo -e "$(nproc) thread build."
           let make_process=$(nproc)+1
           make toolchain/install -j${make_process} 
-       
+
      - name: Make Download
        run: |
         cd openwrt
