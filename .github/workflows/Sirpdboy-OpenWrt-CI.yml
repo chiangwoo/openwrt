@@ -17,6 +17,8 @@ env:
   REPO_BRANCH: master
   FEEDS_CONF: feeds.conf.default
   CONFIG_FILE: allappdrv.config
+  DIY_P1_SH: diy1.sh
+  DIY_P2_SH: diy2.sh
   TD: Asia/Shanghai
 
 jobs:
@@ -51,12 +53,12 @@ jobs:
      - name: update feeds
        run: |
          curl -fsSL  https://raw.githubusercontent.com/siropboy/other/master/patch/feeds.conf.default/$FEEDS_CONF >> openwrt/feeds.conf.default
-         cd openwrt  && ./scripts/feeds update -a
+         cd openwrt &&curl -fsSL https://raw.githubusercontent.com/siropboy/other/master/patch/script/$DIY_P1_SH | sh && ./scripts/feeds update -a
 
      - name: update Packages
        run: |
         cd openwrt
-        curl -fsSL https://raw.githubusercontent.com/siropboy/other/master/patch/script/update_package.sh | sh
+        curl -fsSL https://raw.githubusercontent.com/siropboy/other/master/patch/script/$DIY_P2_SH | sh
         ./scripts/feeds install -a
 
      - name: Make Download
