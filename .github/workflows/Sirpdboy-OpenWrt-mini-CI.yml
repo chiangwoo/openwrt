@@ -49,13 +49,13 @@ jobs:
          git clone --depth 1 $REPO_URL -b $REPO_BRANCH openwrt
          ln -sf /workdir/openwrt $GITHUB_WORKSPACE/openwrt
          
-     - name: update feeds
+     - name: Update feeds
        run: |
          cd openwrt
          curl -fsSL https://raw.githubusercontent.com/siropboy/other/master/patch/script/$DIY_P1_SH | sh
          ./scripts/feeds update -a
 
-     - name: update Packages
+     - name: Update Packages
        run: |
         cd openwrt
         curl -fsSL https://raw.githubusercontent.com/siropboy/other/master/patch/script/$DIY_P2_SH | sh
@@ -71,7 +71,14 @@ jobs:
         find dl -size -1024c -exec rm -f {} \;
         # 修改LAN的IP地址
         # sed -i 's/192.168.1.1/192.168.9.1/g' package/base-files/files/bin/config_generate
-
+        
+     - name: Toolchain Openwrt
+       run: |
+          cd openwrt
+          echo -e "$(nproc) thread build."
+          let make_process=$(nproc)+1
+          make toolchain/install -j${make_process} 
+          
      - name: Compile Openwrt
        run: |
           cd openwrt
